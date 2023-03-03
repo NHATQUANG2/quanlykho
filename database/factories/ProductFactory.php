@@ -19,8 +19,8 @@ class ProductFactory extends Factory
         return [
             'img' => $this->faker->name(),
             'name' => $this->faker->name(),
-            'desc' => $this->faker->url(),
-            'unit' => $this->faker->name(),
+            'desc' => '1',
+            'unit' => 'kg',
             'price' => $this->faker->randomDigit(),
             'quantity' => $this->faker->randomDigit(),
             'import_price' => $this->faker->randomDigit(),
