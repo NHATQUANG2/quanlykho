@@ -23,6 +23,7 @@ class ProductController extends Controller
     public function create()
     {
         //
+        return view('products.create');
     }
 
     /**
@@ -31,6 +32,12 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
+        $product = Product::create($request->only(['name','img','desc','category_id','price','unit','import_price','quantity']));
+        $message = "thêm mới thành công";
+        if($product == null){
+            $message = "thêm mới thất bại ";
+        }
+        return redirect()->route('products.index')->with('message', $message);
     }
 
     /**
@@ -47,6 +54,8 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         //
+        $product = Product::findOrFail($id);
+        return view('products.edit', compact('product'));
     }
 
     /**
@@ -55,6 +64,14 @@ class ProductController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $product = Product::findOrFail($id);
+        $bool = $product->update($request->only(['name', 'img', 'desc','category_id','price']));
+        $message = "Cập nhật thành công";
+        if(!$bool){
+            $message = "cập nhật thất bại";
+
+        }
+        return redirect()->route('products.index')->with('message', $message);
     }
 
     /**
@@ -63,5 +80,12 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         //
+        $message = "xóa thành công";
+        if (!Product::destroy($id)) {
+            $message = "xóa thất bại";
+        }
+
+        return redirect()->route('products.index')->with('message', $message);
     }
+    
 }
